@@ -7,58 +7,58 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import wen.tmall.pojo.Category;
-import wen.tmall.pojo.Property;
+import wen.tmall.pojo.Product;
 import wen.tmall.service.CategoryService;
-import wen.tmall.service.PropertyService;
+import wen.tmall.service.ProductService;
 import wen.tmall.util.Page;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequestMapping("")
-public class PropertyController {
+public class ProductController {
     @Autowired
     CategoryService categoryService;
     @Autowired
-    PropertyService propertyService;
+    ProductService productService;
 
-    @RequestMapping("admin_property_add")
-    public String add(Property p) {
-        propertyService.add(p);
-        return "redirect:admin_property_list?cid=" + p.getCid();
+    @RequestMapping("admin_product_add")
+    public String add(Model model, Product p) {
+        p.setCreateDate(new Date());
+        productService.add(p);
+        return "redirect:admin_product_list?cid=" + p.getCid();
     }
 
-    @RequestMapping("admin_property_delete")
+    @RequestMapping("admin_product_delete")
     public String delete(int id) {
-        Property p = propertyService.get(id);
-        propertyService.delete(id);
-        return "redirect:admin_property_list?cid=" + p.getCid();
+        Product p = productService.get(id);
+        productService.delete(id);
+        return "redirect:admin_product_list?cid=" + p.getCid();
     }
 
-    @RequestMapping("admin_property_edit")
+    @RequestMapping("admin_product_edit")
     public String edit(Model model, int id) {
-        Property p = propertyService.get(id);
+        Product p = productService.get(id);
         Category c = categoryService.get(p.getCid());
         p.setCategory(c);
         model.addAttribute("p", p);
-        return "admin/editProperty";
+        return "admin/editProduct";
     }
 
-    @RequestMapping("admin_property_update")
-    public String update(Property p) {
-        propertyService.update(p);
-        return "redirect:admin_property_list?cid=" + p.getCid();
+    @RequestMapping("admin_product_update")
+    public String update(Product p) {
+        productService.update(p);
+        return "redirect:admin_product_list?cid=" + p.getCid();
     }
 
-    @RequestMapping("admin_property_list")
+    @RequestMapping("admin_product_list")
     public String list(int cid, Model model, Page page) {
-        // 获取种类实例
         Category c = categoryService.get(cid);
-        // 设置pageHelper插件起始页，每页个数
+
         PageHelper.offsetPage(page.getStart(), page.getCount());
-        // 获得属性列表
-        List<Property> ps = propertyService.list(cid);
-        // 属性总个数
+        List<Product> ps = productService.list(cid);
+
         int total = (int) new PageInfo<>(ps).getTotal();
         page.setTotal(total);
         page.setParam("&cid=" + c.getId());
@@ -67,6 +67,6 @@ public class PropertyController {
         model.addAttribute("c", c);
         model.addAttribute("page", page);
 
-        return "admin/listProperty";
+        return "admin/listProduct";
     }
 }
