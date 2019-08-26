@@ -25,7 +25,6 @@
 
 <title>产品管理</title>
 
-
 <div class="workingArea">
 
     <ol class="breadcrumb">
@@ -34,10 +33,8 @@
         <li class="active">产品管理</li>
     </ol>
 
-
     <div class="listDataTableDiv">
-        <table
-                class="table table-striped table-bordered table-hover  table-condensed">
+        <table class="table table-striped table-bordered table-hover  table-condensed">
             <thead>
             <tr class="success">
                 <th>ID</th>
@@ -59,9 +56,9 @@
                     <td>${p.id}</td>
                     <td>
 
-                            <%--<c:if test="${!empty p.firstProductImage}">--%>
-                            <%--<img width="40px" src="img/productSingle/${p.firstProductImage.id}.jpg">--%>
-                            <%--</c:if>--%>
+                        <c:if test="${!empty p.firstProductImage}">
+                            <img width="40px" src="img/productSingle/${p.firstProductImage.id}.jpg">
+                        </c:if>
 
                     </td>
                     <td>${p.name}</td>
@@ -73,13 +70,11 @@
                             class="glyphicon glyphicon-picture"></span></a></td>
                     <td><a href="admin_propertyValue_edit?pid=${p.id}"><span
                             class="glyphicon glyphicon-th-list"></span></a></td>
-
                     <td><a href="admin_product_edit?id=${p.id}"><span
                             class="glyphicon glyphicon-edit"></span></a></td>
                     <td><a deleteLink="true"
                            href="admin_product_delete?id=${p.id}"><span
                             class=" 	glyphicon glyphicon-trash"></span></a></td>
-
                 </tr>
             </c:forEach>
             </tbody>

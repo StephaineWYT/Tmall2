@@ -12,7 +12,6 @@ import wen.tmall.service.CategoryService;
 import wen.tmall.service.ProductService;
 import wen.tmall.util.Page;
 
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -25,7 +24,6 @@ public class ProductController {
 
     @RequestMapping("admin_product_add")
     public String add(Model model, Product p) {
-        p.setCreateDate(new Date());
         productService.add(p);
         return "redirect:admin_product_list?cid=" + p.getCid();
     }
