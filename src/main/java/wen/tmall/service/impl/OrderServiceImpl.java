@@ -48,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    /*为订单设置用户*/
     public void setUser(List<Order> os) {
         for (Order o : os)
             setUser(o);

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface OrderService {
 
+    /* 订单属性 */
     String waitPay = "waitPay";
     String waitDelivery = "waitDelivery";
     String waitConfirm = "waitConfirm";

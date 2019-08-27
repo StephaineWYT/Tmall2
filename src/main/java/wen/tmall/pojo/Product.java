@@ -19,7 +19,7 @@ public class Product {
 
     private Date createDate;
 
-    /*非数据库字段*/
+    /*非数据库字段，一个种类对应多种产品*/
     private Category category;
 
     private ProductImage firstProductImage;

@@ -11,7 +11,7 @@ public class OrderItem {
 
     private Integer number;
 
-    /*非数据库字段*/
+    /*非数据库字段, product用来获取产品图片*/
     private Product product;
 
     public Integer getId() {

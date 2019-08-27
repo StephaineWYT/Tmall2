@@ -27,9 +27,7 @@ public class OrderController {
     @RequestMapping("admin_order_list")
     public String list(Model model, Page page) {
         PageHelper.offsetPage(page.getStart(), page.getCount());
-
         List<Order> os = orderService.list();
-
         int total = (int) new PageInfo<>(os).getTotal();
         page.setTotal(total);
 

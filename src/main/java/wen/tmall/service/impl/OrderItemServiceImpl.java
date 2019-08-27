@@ -50,11 +50,13 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public void fill(List<Order> os) {
-
+        for (Order o : os) {
+            fill(o);
+        }
     }
 
     /**
-     * 为这些订单填充上orderItems信息
+     * 为订单填充上orderItems信息
      *
      * @param o
      */
