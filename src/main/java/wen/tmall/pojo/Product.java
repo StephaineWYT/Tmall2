@@ -2,8 +2,6 @@ package wen.tmall.pojo;
 
 import java.util.Date;
 
-import java.util.Date;
-
 public class Product {
     private Integer id;
 
@@ -20,7 +18,6 @@ public class Product {
     private Integer cid;
 
     private Date createDate;
-
 
     /*非数据库字段*/
     private Category category;
