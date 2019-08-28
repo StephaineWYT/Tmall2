@@ -374,6 +374,7 @@ public class UserExample {
             this.condition = condition;
             this.value = value;
             this.typeHandler = typeHandler;
+
             if (value instanceof List<?>) {
                 this.listValue = true;
             } else {

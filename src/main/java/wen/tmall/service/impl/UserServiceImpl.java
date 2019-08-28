@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
         if (!result.isEmpty()) {
             return true;
         }
+
         return false;
     }
 }

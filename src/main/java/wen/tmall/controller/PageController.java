@@ -26,4 +26,5 @@ public class PageController {
     public String alipay() {
         return "fore/alipay";
     }
+
 }

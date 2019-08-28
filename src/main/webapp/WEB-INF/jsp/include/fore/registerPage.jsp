@@ -2,7 +2,6 @@
          pageEncoding="UTF-8" isELIgnored="false" %>
 <script>
     $(function () {
-
         <c:if test="${!empty msg}">
         $("span.errorMessage").html("${msg}");
         $("div.registerErrorMessageDiv").css("visibility", "visible");
