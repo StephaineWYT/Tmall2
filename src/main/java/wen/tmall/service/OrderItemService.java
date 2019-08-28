@@ -17,8 +17,11 @@ public interface OrderItemService {
 
     List list();
 
-    /* 订单填充上orderItems信息 */
     void fill(List<Order> os);
 
+    /* 订单填充上orderItems信息 */
     void fill(Order o);
+
+    /* 获取销售量 */
+    int getSaleCount(int pid);
 }

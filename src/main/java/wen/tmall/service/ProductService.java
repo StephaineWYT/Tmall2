@@ -26,4 +26,9 @@ public interface ProductService {
 
     /* 每个分类下的产品集合，8个为一行，拆成多行 */
     void fillByRow(List<Category> cs);
+
+    /* 为产品设置销量和评价数量 */
+    void setSaleAndReviewNumber(Product p);
+
+    void setSaleAndReviewNumber(List<Product> ps);
 }
