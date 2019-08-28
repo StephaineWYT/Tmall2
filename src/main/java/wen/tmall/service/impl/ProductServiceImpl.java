@@ -7,9 +7,7 @@ import wen.tmall.pojo.Category;
 import wen.tmall.pojo.Product;
 import wen.tmall.pojo.ProductExample;
 import wen.tmall.pojo.ProductImage;
-import wen.tmall.service.CategoryService;
-import wen.tmall.service.ProductImageService;
-import wen.tmall.service.ProductService;
+import wen.tmall.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +21,10 @@ public class ProductServiceImpl implements ProductService {
     CategoryService categoryService;
     @Autowired
     ProductImageService productImageService;
+    @Autowired
+    OrderItemService orderItemService;
+    @Autowired
+    ReviewService reviewService;
 
     @Override
     public void add(Product p) {
@@ -120,4 +122,22 @@ public class ProductServiceImpl implements ProductService {
             c.setProductsByRow(productsByRow);
         }
     }
+
+    @Override
+    public void setSaleAndReviewNumber(Product p) {
+
+        int saleCount = orderItemService.getSaleCount(p.getId());
+        p.setSaleCount(saleCount);
+
+        int reviewCount = reviewService.getCount(p.getId());
+        p.setReviewCount(reviewCount);
+    }
+
+    @Override
+    public void setSaleAndReviewNumber(List<Product> ps) {
+        for (Product p : ps) {
+            setSaleAndReviewNumber(p);
+        }
+    }
+
 }

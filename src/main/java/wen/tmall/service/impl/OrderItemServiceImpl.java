@@ -17,7 +17,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Autowired
     OrderItemMapper orderItemMapper;
-
     @Autowired
     ProductService productService;
 
@@ -43,9 +42,11 @@ public class OrderItemServiceImpl implements OrderItemService {
         return result;
     }
 
-    @Override
-    public List list() {
-        return null;
+    public List<OrderItem> list() {
+        OrderItemExample example = new OrderItemExample();
+        example.setOrderByClause("id desc");
+        return orderItemMapper.selectByExample(example);
+
     }
 
     @Override
@@ -56,11 +57,10 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     /**
-     * 为订单填充上orderItems信息
+     * 为订单填充商品项
      *
      * @param o
      */
-    @Override
     public void fill(Order o) {
 
         OrderItemExample example = new OrderItemExample();
@@ -70,6 +70,16 @@ public class OrderItemServiceImpl implements OrderItemService {
         setProduct(ois);
 
         float total = 0;
+        int totalNumber = 0;
+        for (OrderItem oi : ois) {
+            total += oi.getNumber() * oi.getProduct().getPromotePrice();
+            totalNumber += oi.getNumber();
+        }
+        o.setTotal(total);
+        o.setTotalNumber(totalNumber);
+        o.setOrderItems(ois);
+
+
     }
 
     public void setProduct(List<OrderItem> ois) {
@@ -78,8 +88,21 @@ public class OrderItemServiceImpl implements OrderItemService {
         }
     }
 
-    public void setProduct(OrderItem oi) {
+    private void setProduct(OrderItem oi) {
         Product p = productService.get(oi.getPid());
         oi.setProduct(p);
     }
+
+    @Override
+    public int getSaleCount(int pid) {
+        OrderItemExample example = new OrderItemExample();
+        example.createCriteria().andPidEqualTo(pid);
+        List<OrderItem> ois = orderItemMapper.selectByExample(example);
+        int result = 0;
+        for (OrderItem oi : ois) {
+            result += oi.getNumber();
+        }
+        return result;
+    }
 }
+
