@@ -1,6 +1,7 @@
 package wen.tmall.controller;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import wen.tmall.pojo.*;
 import wen.tmall.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,4 +118,37 @@ public class ForeController {
 
         return "fore/product";
     }
+
+    @RequestMapping("forecheckLogin")
+    @ResponseBody
+    public String checkLogin(HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+
+        if (user != null) {
+            return "success";
+        }
+        return "fail";
+    }
+
+    /* 账号密码获取User对象
+       如果User对象为空，返回fail
+       不为空，将User对象放在session中，并返回"success" 字符串 */
+    @RequestMapping("foreloginAjax")
+    @ResponseBody
+    public String loginAjax(@RequestParam("name") String name,
+                            @RequestParam("password") String password,
+                            HttpSession session) {
+
+        name = HtmlUtils.htmlEscape(name);
+        User user = userService.get(name, password);
+
+        if (null == user) {
+            return "fail";
+        }
+
+        session.setAttribute("user", user);
+        return "success";
+    }
+
 }
