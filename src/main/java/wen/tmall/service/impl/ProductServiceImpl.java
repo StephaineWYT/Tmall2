@@ -11,6 +11,7 @@ import wen.tmall.service.CategoryService;
 import wen.tmall.service.ProductImageService;
 import wen.tmall.service.ProductService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -83,4 +84,40 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
+    public void fill(List<Category> cs) {
+        for (Category c : cs) {
+            fill(c);
+        }
+    }
+
+    @Override
+    public void fill(Category c) {
+        List<Product> ps = list(c.getId());
+        c.setProducts(ps);
+    }
+
+    @Override
+    public void fillByRow(List<Category> cs) {
+        /* 每行推荐8个分类 */
+        int productNumberEachRow = 8;
+
+        for (Category c : cs) {
+
+            /* 获取竖行种类集合 */
+            List<Product> products = c.getProducts();
+
+            /* 横排推荐种类集合 */
+            List<List<Product>> productsByRow = new ArrayList<>();
+
+            for (int i = 0; i < products.size(); i += productNumberEachRow) {
+
+                int size = i + productNumberEachRow;
+                size = size > products.size() ? products.size() : size;
+                List<Product> productsOfEachRow = products.subList(i, size);
+                productsByRow.add(productsOfEachRow);
+            }
+            c.setProductsByRow(productsByRow);
+        }
+    }
 }
