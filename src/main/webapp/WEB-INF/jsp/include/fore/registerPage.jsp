@@ -36,7 +36,6 @@
 </script>
 <form method="post" action="foreregister" class="registerForm">
 
-
     <div class="registerDiv">
         <div class="registerErrorMessageDiv">
             <div class="alert alert-danger" role="alert">

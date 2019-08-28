@@ -14,6 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("")
 public class ForeController {
+
     @Autowired
     CategoryService categoryService;
     @Autowired
