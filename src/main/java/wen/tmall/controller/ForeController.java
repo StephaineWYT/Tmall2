@@ -1,7 +1,9 @@
 package wen.tmall.controller;
 
+import com.github.pagehelper.PageHelper;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import wen.comparator.*;
 import wen.tmall.pojo.*;
 import wen.tmall.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -151,4 +154,60 @@ public class ForeController {
         return "success";
     }
 
+    /*  获取分类Category对象 c
+        填充c分类下产品
+        为产品填充销量和评价数据
+        获取参数sort
+        如果sort == null，不排序
+        否则根据sort的值，从5个Comparator比较器中选择一个对应的排序器进行排序
+    */
+    @RequestMapping("forecategory")
+    public String category(int cid, String sort, Model model) {
+        Category c = categoryService.get(cid);
+        productService.fill(c);
+        productService.setSaleAndReviewNumber(c.getProducts());
+
+        if (null != sort) {
+            switch (sort) {
+                case "review":
+                    Collections.sort(c.getProducts(), new ProductReviewComparator());
+                    break;
+                case "date":
+                    Collections.sort(c.getProducts(), new ProductDateComparator());
+                    break;
+
+                case "saleCount":
+                    Collections.sort(c.getProducts(), new ProductSaleCountComparator());
+                    break;
+
+                case "price":
+                    Collections.sort(c.getProducts(), new ProductPriceComparator());
+                    break;
+
+                case "all":
+                    Collections.sort(c.getProducts(), new ProductAllComparator());
+                    break;
+            }
+        }
+
+        model.addAttribute("c", c);
+        return "fore/category";
+    }
+
+    /* 获取参数keyword
+       根据keyword进行模糊查询，获取满足条件的前20个产品
+       为这些产品设置销量和评价数量
+       把产品结合设置在model的"ps"属性上
+       服务端跳转到 searchResult.jsp 页面 */
+    @RequestMapping("foresearch")
+    public String search(String keyword, Model model) {
+
+        PageHelper.offsetPage(0, 20);
+        List<Product> ps = productService.search(keyword);
+
+        productService.setSaleAndReviewNumber(ps);
+        model.addAttribute("ps", ps);
+
+        return "fore/searchResult";
+    }
 }

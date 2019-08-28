@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" isELIgnored="false" %>
+
 <div>
     <a href="${contextPath}">
         <img id="simpleLogo" class="simpleLogo" src="img/site/simpleLogo.png">
     </a>
+
     <form action="foresearch" method="post">
         <div class="simpleSearchDiv pull-right">
             <input type="text" placeholder="平衡车 原汁机" value="${param.keyword}" name="keyword">
