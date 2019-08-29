@@ -7,7 +7,11 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" isELIgnored="false" %>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
 <script>
 
     $(function () {
@@ -31,6 +35,7 @@
                 num = stock;
             $(".productNumberSetting").val(num);
         });
+
         $(".decreaseNumber").click(function () {
             var num = $(".productNumberSetting").val();
             --num;
@@ -71,6 +76,7 @@
             );
             return false;
         });
+
         $(".buyLink").click(function () {
             var page = "forecheckLogin";
             $.get(
@@ -174,15 +180,15 @@
                     <span class="originalPriceYuan">¥</span>
                     <span class="originalPrice">
 
-						<fmt:formatNumber type="number" value="${p.originalPrice}" minFractionDigits="2"/>
-					</span>
+                        <fmt:formatNumber type="number" value="${p.originalPrice}" minFractionDigits="2"/>
+                    </span>
                 </div>
                 <div class="promotionDiv">
                     <span class="promotionPriceDesc">促销价 </span>
                     <span class="promotionPriceYuan">¥</span>
                     <span class="promotionPrice">
-						<fmt:formatNumber type="number" value="${p.promotePrice}" minFractionDigits="2"/>
-					</span>
+                        <fmt:formatNumber type="number" value="${p.promotePrice}" minFractionDigits="2"/>
+                    </span>
                 </div>
             </div>
         </div>
@@ -193,36 +199,36 @@
         <div class="productNumber">
             <span>数量</span>
             <span>
-				<span class="productNumberSettingSpan">
-				<input class="productNumberSetting" type="text" value="1">
-				</span>
-				<span class="arrow">
-					<a href="#nowhere" class="increaseNumber">
-					<span class="updown">
-							<img src="img/site/increase.png">
-					</span>
-					</a>
+                <span class="productNumberSettingSpan">
+                <input class="productNumberSetting" type="text" value="1">
+                </span>
+                <span class="arrow">
+                    <a href="#nowhere" class="increaseNumber">
+                    <span class="updown">
+                            <img src="img/site/increase.png">
+                    </span>
+                    </a>
 
-					<span class="updownMiddle"> </span>
-					<a href="#nowhere" class="decreaseNumber">
-					<span class="updown">
-							<img src="img/site/decrease.png">
-					</span>
-					</a>
+                    <span class="updownMiddle"> </span>
+                    <a href="#nowhere" class="decreaseNumber">
+                    <span class="updown">
+                            <img src="img/site/decrease.png">
+                    </span>
+                    </a>
 
-				</span>
+                </span>
 
-			件</span>
+            件</span>
             <span>库存${p.stock}件</span>
         </div>
         <div class="serviceCommitment">
             <span class="serviceCommitmentDesc">服务承诺</span>
             <span class="serviceCommitmentLink">
-				<a href="#nowhere">正品保证</a>
-				<a href="#nowhere">极速退款</a>
-				<a href="#nowhere">赠运费险</a>
-				<a href="#nowhere">七天无理由退换</a>
-			</span>
+                <a href="#nowhere">正品保证</a>
+                <a href="#nowhere">极速退款</a>
+                <a href="#nowhere">赠运费险</a>
+                <a href="#nowhere">七天无理由退换</a>
+            </span>
         </div>
 
         <div class="buyDiv">
