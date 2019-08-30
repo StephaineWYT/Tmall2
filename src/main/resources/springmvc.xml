@@ -7,16 +7,14 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
-    <!--启动注解识别-->
+    <!-- 启动注解识别 -->
     <context:annotation-config/>
-
     <context:component-scan base-package="wen.tmall.controller">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-
     <mvc:annotation-driven/>
 
-    <!--开通静态资源的访问-->
+    <!-- 开通静态资源的访问 -->
     <mvc:default-servlet-handler/>
 
     <!-- 视图定位 -->
@@ -26,6 +24,14 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!-- 对上传文件的解析-->
+    <!-- 对上传文件的解析 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+    <!-- 设置拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/fore*"/>
+            <bean class="wen.tmall.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
