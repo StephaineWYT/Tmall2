@@ -7,21 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import wen.tmall.pojo.User;
-import wen.tmall.service.CategoryService;
-import wen.tmall.service.OrderItemService;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
-
-    @Autowired
-    CategoryService categoryService;
-
-    @Autowired
-    OrderItemService orderItemService;
 
     /**
      * 在业务处理器处理请求之前被调用
@@ -40,7 +31,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         String contextPath = session.getServletContext().getContextPath();
         String[] noNeedAuthPage = new String[]{
                 "home", "checkLogin", "register", "loginAjax", "login", "product", "category", "search"};
-
         String uri = request.getRequestURI();
         uri = StringUtils.remove(uri, contextPath);
 
@@ -56,7 +46,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         }
 
         return true;
-
     }
 
     /**

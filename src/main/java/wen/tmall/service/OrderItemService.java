@@ -24,4 +24,6 @@ public interface OrderItemService {
 
     /* 获取销售量 */
     int getSaleCount(int pid);
+
+    List<OrderItem> listByUser(int uid);
 }

@@ -33,5 +33,9 @@
             <mvc:mapping path="/fore*"/>
             <bean class="wen.tmall.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/fore*"/>
+            <bean class="wen.tmall.interceptor.OtherInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 </beans>
