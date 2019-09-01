@@ -37,23 +37,22 @@
             $("#deleteConfirmModal").modal('hide');
         });
 
-        $('#deleteConfirmModal').on('hidden.bs.modal', function (e) {
+        $("#deleteConfirmModal").on('hidden.bs.modal', function (e) {
+            //hidden.bs.modal是指当模态隐藏时，则触发回调函数
             if (deleteOrder) {
                 var page = "foredeleteOrder";
                 $.post(
                     page,
-                    {"oid": deleteOrderid},
+                    {oid: deleteOrderid},
                     function (result) {
-                        if ("success" == result) {
+                        if (result == "success") {
                             $("table.orderListItemTable[oid=" + deleteOrderid + "]").hide();
-                        } else {
-                            location.href = "login.jsp";
-                        }
+                            $("table.orderListItemTable[oid=" + deleteOrderid + "]").attr("yin", true);
+                        } else location.href = "loginpage";
                     }
-                );
-
+                )
             }
-        })
+        });
 
         $(".ask2delivery").click(function () {
             var link = $(this).attr("link");
