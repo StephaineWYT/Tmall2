@@ -1,6 +1,7 @@
 package wen.tmall.service;
 
 import wen.tmall.pojo.Order;
+import wen.tmall.pojo.OrderItem;
 
 import java.util.List;
 
@@ -23,4 +24,8 @@ public interface OrderService {
     Order get(int id);
 
     List list();
+
+    float add(Order o, List<OrderItem> ois);
+
+    List list(int uid, String excludedStatus);
 }

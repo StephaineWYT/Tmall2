@@ -2,10 +2,14 @@ package wen.tmall.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import wen.tmall.mapper.OrderMapper;
 import wen.tmall.pojo.Order;
 import wen.tmall.pojo.OrderExample;
+import wen.tmall.pojo.OrderItem;
 import wen.tmall.pojo.User;
+import wen.tmall.service.OrderItemService;
 import wen.tmall.service.OrderService;
 import wen.tmall.service.UserService;
 
@@ -13,11 +17,15 @@ import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
     @Autowired
     OrderMapper orderMapper;
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    OrderItemService orderItemService;
 
     @Override
     public void add(Order c) {
@@ -46,6 +54,32 @@ public class OrderServiceImpl implements OrderService {
 
         setUser(result);
         return result;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackForClassName = "Exception")
+    public float add(Order o, List<OrderItem> ois) {
+        float total = 0;
+        add(o);
+
+        if (false) {
+            throw new RuntimeException();
+        }
+
+        for (OrderItem oi : ois) {
+            oi.setOid(o.getId());
+            orderItemService.update(oi);
+            total += oi.getProduct().getPromotePrice() * oi.getNumber();
+        }
+        return total;
+    }
+
+    @Override
+    public List list(int uid, String excludedStatus) {
+        OrderExample example = new OrderExample();
+        example.createCriteria().andUidEqualTo(uid).andStatusNotEqualTo(excludedStatus);
+        example.setOrderByClause("id desc");
+        return orderMapper.selectByExample(example);
     }
 
     /*为订单设置用户*/

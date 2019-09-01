@@ -1,6 +1,8 @@
 package wen.tmall.controller;
 
 import com.github.pagehelper.PageHelper;
+import com.sun.javafx.binding.StringFormatter;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -38,7 +42,6 @@ public class ForeController {
     OrderItemService orderItemService;
     @Autowired
     ReviewService reviewService;
-
 
     @RequestMapping("forehome")
     public String home(Model model) {
@@ -328,4 +331,39 @@ public class ForeController {
         orderItemService.delete(oiid);
         return "success";
     }
+
+    @RequestMapping("forecreateOrder")
+    public String createOrder(Model model, Order order, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
+        order.setOrderCode(orderCode);
+        order.setCreateDate(new Date());
+        order.setUid(user.getId());
+        order.setStatus(OrderService.waitPay);
+        List<OrderItem> ois = (List<OrderItem>) session.getAttribute("ois");
+
+        float total = orderService.add(order, ois);
+        return "redirect:forealipay?oid=" + order.getId() + "&total=" + total;
+    }
+
+    @RequestMapping("forepayed")
+    public String payed(int oid, float total, Model model) {
+        Order order = orderService.get(oid);
+        order.setStatus(OrderService.waitDelivery);
+        order.setPayDate(new Date());
+        orderService.update(order);
+        model.addAttribute("o", order);
+        return "fore/payed";
+    }
+
+    @RequestMapping("forebought")
+    public String bought(Model model, HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+        List<Order> os = orderService.list(user.getId(), OrderService.delete);
+        orderItemService.fill(os);
+        model.addAttribute("os", os);
+        return "fore/bought";
+    }
+
 }
